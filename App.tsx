@@ -30,6 +30,9 @@ import { PromotionModal } from './src/components/PromotionModal';
 import { GameOverModal } from './src/components/GameOverModal';
 import { SettingsModal } from './src/components/SettingsModal';
 import { HistoryModal } from './src/components/HistoryModal';
+import { BottomNavBar, AppTab } from './src/components/BottomNavBar';
+import { CareerScreen } from './src/components/CareerScreen';
+import { ProfileScreen } from './src/components/ProfileScreen';
 
 const INITIAL_TIME_SECONDS = 600; // 10 minutes rapid
 
@@ -51,6 +54,9 @@ export default function App() {
     hapticEnabled: true,
     showLegalMoves: true,
   });
+
+  // Current Navigation Tab
+  const [currentTab, setCurrentTab] = useState<AppTab>('arena');
 
   // Board & Game State
   const [board, setBoard] = useState(engine.getBoard());
@@ -189,27 +195,32 @@ export default function App() {
   // AI Turn Trigger
   useEffect(() => {
     const isAiTurn = turn !== settings.playerColor;
-    if (isAiTurn && gameStatus === 'active' && !isAiThinking) {
+    if (isAiTurn && gameStatus === 'active') {
       setIsAiThinking(true);
 
       // Human-like pause for calculation
-      const delay = settings.difficulty === 'master' ? 600 : 350;
+      const delay = settings.difficulty === 'master' ? 500 : 350;
       const timeout = setTimeout(() => {
-        const aiMove = getAIMove(engine.getChessInstance(), settings.difficulty);
-        if (aiMove) {
-          engine.makeMove(
-            aiMove.from as Square,
-            aiMove.to as Square,
-            (aiMove.promotion as PieceType) || 'q'
-          );
-          syncGameState();
+        try {
+          const aiMove = getAIMove(engine.getChessInstance(), settings.difficulty);
+          if (aiMove) {
+            engine.makeMove(
+              aiMove.from as Square,
+              aiMove.to as Square,
+              (aiMove.promotion as PieceType) || 'q'
+            );
+            syncGameState();
+          }
+        } catch (err) {
+          console.error('AI calculation error:', err);
+        } finally {
+          setIsAiThinking(false);
         }
-        setIsAiThinking(false);
       }, delay);
 
       return () => clearTimeout(timeout);
     }
-  }, [turn, settings.playerColor, settings.difficulty, gameStatus, isAiThinking, engine, syncGameState]);
+  }, [turn, settings.playerColor, settings.difficulty, gameStatus, engine, syncGameState]);
 
   // Handle Square Selection and Moves
   const handleSquarePress = (square: Square) => {
@@ -366,82 +377,106 @@ export default function App() {
 
       {/* Top App Header */}
       <HeaderBar
-        title="Aktif Oyun Arenası"
+        title={
+          currentTab === 'career'
+            ? 'Kariyer Haritası'
+            : currentTab === 'profile'
+            ? 'Profil & İstatistikler'
+            : 'Aktif Oyun Arenası'
+        }
+        onHomePress={() => setCurrentTab('career')}
+        onProfilePress={() => setCurrentTab('profile')}
         onSettingsPress={() => setShowSettings(true)}
       />
 
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Stage & Challenge Banner */}
-        <StageBanner
-          stage="AŞAMA 08"
-          category="Taktik Sınavı"
-          title="Büyük Usta Düellosu"
-          stars={2}
-          maxStars={3}
-        />
+      {currentTab === 'career' && (
+        <CareerScreen onStartMatch={() => setCurrentTab('arena')} />
+      )}
 
-        {/* AI Opponent Header */}
-        <OpponentHeader
-          name={aiProfile.name}
-          rating={aiProfile.rating}
-          avatarIcon={aiProfile.icon}
-          isTurn={!isPlayerTurn && gameStatus === 'active'}
-          capturedPieces={opponentCaptured}
-          timeFormatted={formatTime(opponentTime)}
+      {currentTab === 'profile' && (
+        <ProfileScreen
+          onOpenSettings={() => setShowSettings(true)}
+          onPlayNow={() => setCurrentTab('arena')}
         />
+      )}
 
-        {/* Tactical Notification Banner */}
-        {tacticalAlert && (
-          <TacticalAlert
-            message={tacticalAlert.message}
-            subBadge={tacticalAlert.subBadge}
-            isWarning={tacticalAlert.isWarning}
+      {currentTab === 'arena' && (
+        <ScrollView
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* Stage & Challenge Banner */}
+          <StageBanner
+            stage="AŞAMA 08"
+            category="Taktik Sınavı"
+            title="Büyük Usta Düellosu"
+            stars={2}
+            maxStars={3}
           />
-        )}
 
-        {/* 8x8 Interactive Chessboard Container */}
-        <ChessBoard
-          board={board}
-          playerColor={settings.playerColor}
-          selectedSquare={selectedSquare}
-          legalMoves={legalMoves}
-          lastMove={lastMove}
-          checkSquare={checkSquare}
-          hintTarget={hintTarget}
-          onSquarePress={handleSquarePress}
-        />
+          {/* AI Opponent Header */}
+          <OpponentHeader
+            name={aiProfile.name}
+            rating={aiProfile.rating}
+            avatarIcon={aiProfile.icon}
+            isTurn={!isPlayerTurn && gameStatus === 'active'}
+            capturedPieces={opponentCaptured}
+            timeFormatted={formatTime(opponentTime)}
+          />
 
-        {/* Player HUD Panel */}
-        <PlayerHUD
-          name="Usta Adayı"
-          rating={1450}
-          playerColor={settings.playerColor}
-          isTurn={isPlayerTurn && gameStatus === 'active'}
-          timeFormatted={formatTime(playerTime)}
-          hapticEnabled={settings.hapticEnabled}
-        />
+          {/* Tactical Notification Banner */}
+          {tacticalAlert && (
+            <TacticalAlert
+              message={tacticalAlert.message}
+              subBadge={tacticalAlert.subBadge}
+              isWarning={tacticalAlert.isWarning}
+            />
+          )}
 
-        {/* Tactical Action Controls (Geri Al, İpucu, Ayarlar, Pes Et, Yeni Oyun) */}
-        <ActionControls
-          onUndo={handleUndo}
-          onHint={handleHint}
-          onSettings={() => setShowSettings(true)}
-          onResign={handleResign}
-          onNewGame={handleNewGame}
-          undoCount={undoCount}
-          hintActive={!!hintTarget}
-          disabled={gameStatus !== 'active' || isAiThinking}
-        />
+          {/* 8x8 Interactive Chessboard Container */}
+          <ChessBoard
+            board={board}
+            playerColor={settings.playerColor}
+            selectedSquare={selectedSquare}
+            legalMoves={legalMoves}
+            lastMove={lastMove}
+            checkSquare={checkSquare}
+            hintTarget={hintTarget}
+            onSquarePress={handleSquarePress}
+          />
 
-        {/* Bottom Notation Strip */}
-        <NotationBar
-          lastMoveText={lastMoveText}
-          onPressHistory={() => setShowHistory(true)}
-        />
-      </ScrollView>
+          {/* Player HUD Panel */}
+          <PlayerHUD
+            name="Usta Adayı"
+            rating={1450}
+            playerColor={settings.playerColor}
+            isTurn={isPlayerTurn && gameStatus === 'active'}
+            timeFormatted={formatTime(playerTime)}
+            hapticEnabled={settings.hapticEnabled}
+          />
+
+          {/* Tactical Action Controls (Geri Al, İpucu, Ayarlar, Pes Et, Yeni Oyun) */}
+          <ActionControls
+            onUndo={handleUndo}
+            onHint={handleHint}
+            onSettings={() => setShowSettings(true)}
+            onResign={handleResign}
+            onNewGame={handleNewGame}
+            undoCount={undoCount}
+            hintActive={!!hintTarget}
+            disabled={gameStatus !== 'active' || isAiThinking}
+          />
+
+          {/* Bottom Notation Strip */}
+          <NotationBar
+            lastMoveText={lastMoveText}
+            onPressHistory={() => setShowHistory(true)}
+          />
+        </ScrollView>
+      )}
+
+      {/* Bottom Navigation Bar */}
+      <BottomNavBar currentTab={currentTab} onTabChange={setCurrentTab} />
 
       {/* Pawn Promotion Modal */}
       <PromotionModal

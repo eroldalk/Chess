@@ -4,34 +4,52 @@ import { Colors } from '../theme/colors';
 
 interface HeaderBarProps {
   title?: string;
+  onHomePress?: () => void;
+  onProfilePress?: () => void;
   onSettingsPress?: () => void;
 }
 
 export const HeaderBar: React.FC<HeaderBarProps> = ({
   title = 'Aktif Oyun Arenası',
+  onHomePress,
+  onProfilePress,
   onSettingsPress,
 }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.leftSection}>
+      <TouchableOpacity
+        style={styles.leftSection}
+        onPress={onHomePress}
+        activeOpacity={0.7}
+      >
         <View style={styles.emblemBadge}>
           <Text style={styles.emblemIcon}>♟️</Text>
         </View>
         <Text numberOfLines={1} style={styles.title}>
           {title}
         </Text>
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.rightSection}>
         {/* Offline / Online Engine Status Indicator */}
         <View style={styles.statusPill}>
           <View style={styles.statusDot} />
-          <Text style={styles.statusText}>AI Motoru Aktif</Text>
+          <Text style={styles.statusText}>AI Aktif</Text>
         </View>
+
+        {onSettingsPress && (
+          <TouchableOpacity
+            style={styles.settingsIconButton}
+            onPress={onSettingsPress}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.iconButtonText}>⚙️</Text>
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity
           style={styles.profileButton}
-          onPress={onSettingsPress}
+          onPress={onProfilePress}
           activeOpacity={0.7}
         >
           <Text style={styles.profileIcon}>👤</Text>
@@ -100,6 +118,19 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: '600',
     color: Colors.tertiary,
+  },
+  settingsIconButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: Colors.surfaceContainerHigh,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.08)',
+  },
+  iconButtonText: {
+    fontSize: 14,
   },
   profileButton: {
     width: 32,
