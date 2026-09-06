@@ -1,25 +1,36 @@
 {
   "expo": {
-    "name": "temp_expo",
-    "slug": "temp_expo",
+    "name": "Grandmaster: Satranç & Zeka",
+    "slug": "grandmaster-chess",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "scheme": "grandmasterchess",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#10141a",
+      "resizeMode": "contain"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.chess.grandmaster"
     },
     "android": {
+      "package": "com.chess.grandmaster",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#10141a",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "permissions": [
+        "VIBRATE"
+      ]
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     }
   }
 }

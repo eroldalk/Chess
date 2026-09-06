@@ -1,0 +1,382 @@
+<!DOCTYPE html><html class="dark" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#10141a;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-tertiary-fixed-variant": "#004c69", "inverse-surface": "#dfe2eb", "primary-fixed": "#ffe088", "surface-container-low": "#181c22", "secondary-container": "#ee9800", "on-primary": "#3c2f00", "surface-container-highest": "#31353c", "surface": "#10141a", "on-tertiary-container": "#004b67", "on-error-container": "#ffdad6", "on-surface-variant": "#d0c5af", "on-error": "#690005", "surface-variant": "#31353c", "secondary-fixed-dim": "#ffb95f", "on-surface": "#dfe2eb", "inverse-on-surface": "#2d3137", "tertiary-container": "#3bbffa", "on-secondary-container": "#5b3800", "background": "#10141a", "tertiary": "#93d7ff", "outline-variant": "#4d4635", "secondary": "#ffb95f", "primary-container": "#d4af37", "error": "#ffb4ab", "outline": "#99907c", "tertiary-fixed-dim": "#7bd0ff", "surface-container-lowest": "#0a0e14", "on-primary-container": "#554300", "on-tertiary-fixed": "#001e2c", "on-tertiary": "#00354a", "surface-container-high": "#262a31", "primary-fixed-dim": "#e9c349", "surface-tint": "#e9c349", "inverse-primary": "#735c00", "secondary-fixed": "#ffddb8", "primary": "#f2ca50", "on-secondary-fixed": "#2a1700", "on-background": "#dfe2eb", "on-secondary": "#472a00", "on-secondary-fixed-variant": "#653e00", "tertiary-fixed": "#c4e7ff", "surface-container": "#1c2026", "surface-bright": "#353940", "error-container": "#93000a", "surface-dim": "#10141a", "on-primary-fixed": "#241a00", "on-primary-fixed-variant": "#574500" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-3xs": "0.125rem", "space-2xs": "0.25rem", "space-xs": "0.5rem", "screen-edge-padding": "1rem", "space-3xl": "3rem", "space-lg": "1.5rem", "space-sm": "0.75rem", "space-2xl": "2.5rem", "space-xl": "2rem", "board-gutter": "0.25rem", "space-md": "1rem" }, "fontFamily": { "label-lg": ["JetBrains Mono"], "label-sm": ["JetBrains Mono"], "headline-md": ["Bodoni Moda"], "body-sm": ["Plus Jakarta Sans"], "headline-xl": ["Bodoni Moda"], "display-lg": ["Bodoni Moda"], "body-lg": ["Plus Jakarta Sans"], "headline-lg": ["Bodoni Moda"], "body-md": ["Plus Jakarta Sans"], "label-md": ["JetBrains Mono"], "title-lg": ["Plus Jakarta Sans"] }, "fontSize": { "label-lg": ["13px", { "lineHeight": "18px", "letterSpacing": "0.04em", "fontWeight": "500" }], "label-sm": ["9px", { "lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "700" }], "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "0.01em", "fontWeight": "500" }], "body-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "400" }], "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "letterSpacing": "0.01em", "fontWeight": "400" }], "headline-lg": ["26px", { "lineHeight": "34px", "letterSpacing": "0em", "fontWeight": "600" }], "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400" }], "label-md": ["11px", { "lineHeight": "14px", "letterSpacing": "0.06em", "fontWeight": "500" }], "title-lg": ["18px", { "lineHeight": "26px", "letterSpacing": "0em", "fontWeight": "700" }] } } } }</script></head><body class="bg-surface text-on-surface flex flex-col antialiased selection:bg-primary selection:text-on-primary min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.6)]"><div class="h-16 px-screen-edge-padding flex items-center justify-between gap-space-sm"><div class="flex items-center gap-space-sm min-w-0"><div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center shadow-[inset_0_1px_0_rgba(242,202,80,0.2)]"><img src="https://lh3.googleusercontent.com/aida/AEtjO1V_9XYnk7EOB_yw9608IYaCTfzp6qFj2d8srBuajHoMikVoMMxorvLrA1oT9nd6VIo4XFpvEF4UlqczKuKxa2STEw_d_-9JZFR2yknctxrAuPziZAayHdeZd2u2IFiyp03e1EoZjH9xK7l_rO-4vKtwyJwmmdad4tDxnh8KckKuADGzCNGwvwAzug4PqcFjf4Q84VIGEXIQkJ2jojSn1ydxOc_YRzjoWEVXZF5wWDDQaQa-eNw1D53qdgQ" alt="Chess Logo" class="w-full h-full object-cover rounded-lg"></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-space-2xs"><span class="font-headline-md text-headline-md text-primary tracking-tight truncate">Chess</span><div class="flex items-center gap-space-3xs bg-surface-container-high px-1.5 py-0.5 rounded-full"><span class="w-1.5 h-1.5 rounded-full bg-tertiary shadow-[0_0_8px_rgba(147,215,255,0.8)]"></span><span class="font-label-sm text-label-sm text-tertiary uppercase">Sync</span></div></div><div class="flex items-center gap-space-xs"><span class="font-body-sm text-body-sm text-on-surface-variant truncate">Profile &amp; Statistics</span><span class="text-outline-variant font-label-sm">•</span><div class="flex items-center gap-space-3xs text-secondary"><span class="material-symbols-outlined text-[14px]">trophy</span><span class="font-label-sm text-label-sm font-bold">2480 ELO</span></div></div></div></div><div class="flex items-center gap-space-xs flex-shrink-0"><button class="w-11 h-11 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant active:scale-95 transition-transform" onclick="document.documentElement.classList.toggle('dark')"><span class="material-symbols-outlined text-[20px]">dark_mode</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_0_12px_rgba(242,202,80,0.35)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-16 bg-surface"><div class="flex flex-col w-full pb-24">
+<!-- Dynamic Ambient Glow & Background Layer -->
+<div class="relative w-full px-screen-edge-padding pt-space-md space-y-space-md">
+<!-- Player Dossier Card (Level 1 Surface with Tactile Depth) -->
+<section class="relative overflow-hidden rounded-xl bg-surface-container-low shadow-xl p-space-md">
+<!-- Ambient subtle gold flare -->
+<div class="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+<div class="flex items-start gap-space-md relative z-10">
+<!-- Prestige Avatar with Lathed Ring Simulation -->
+<div class="relative flex-shrink-0">
+<div class="w-20 h-20 rounded-xl overflow-hidden bg-surface-container-highest shadow-[0_8px_20px_rgba(0,0,0,0.8)] p-0.5 bg-gradient-to-b from-primary via-primary-container to-surface-container-highest">
+<img class="w-full h-full object-cover rounded-[10px]" data-alt="High-contrast chiaroscuro portrait of Kemal S., an introspective grandmaster tactician in a bespoke charcoal blazer, warm dramatic side lighting casting golden rim light, deep obsidian and velvet shadow background, fine art oil painting texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTAr4Anz9QWiqVD1ZVUWcVlOi-QoejI3CmmVh49c-YzqoUdc_qnhnEqJTRHWRLIWMn4AYmN8OrubldsB2Eacb6xJlz3ZZICe6jTaQPCELef2fzLVb0ch1PEqTIC5fYd-7yLqkb5UIWuwrFXwDqNt358PDs7GD6g-BVaM5aZypAoGDEgsxcCFzeBjHjaWVxJHJKLq4sylC2oCebLSu2g6cf_xAqwxzy316LDou_g1WKE-J9DdmusErn">
+</div>
+<!-- Level Badge Inset -->
+<div class="absolute -bottom-2 -right-1 bg-surface-container-highest px-2 py-0.5 rounded-full shadow-md flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[13px]" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+<span class="font-label-sm text-label-sm text-primary">LV 18</span>
+</div>
+</div>
+<!-- Identity & Status Dossier -->
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center justify-between gap-1">
+<span class="font-headline-md text-headline-md text-on-surface truncate">Kemal S.</span>
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex items-center gap-space-2xs mt-0.5 flex-wrap">
+<span class="bg-primary/10 text-primary px-2 py-0.5 rounded font-label-md text-label-md tracking-wider uppercase">Usta Adayı</span>
+<span class="text-on-surface-variant font-label-md text-label-md">•</span>
+<span class="text-secondary font-label-md text-label-md">Taktisyen V</span>
+</div>
+<!-- Cloud Sync & Local State Pill -->
+<div class="mt-2.5 flex flex-wrap gap-1.5 items-center">
+<button class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors shadow-sm text-left" id="sync-toggle-btn">
+<span class="material-symbols-outlined text-tertiary text-[14px]">cloud_done</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Play Games: Eşitlendi</span>
+<span class="text-tertiary font-label-sm text-label-sm">✓</span>
+</button>
+<div class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary-container/20 text-secondary shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-label-sm text-label-sm">2 Hamle Yerelde</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Tactical Metrics Tri-Strip -->
+<div class="grid grid-cols-3 gap-2 mt-space-md pt-space-sm bg-surface-container-lowest/70 rounded-lg p-2.5 shadow-inner">
+<div class="flex flex-col items-center justify-center text-center">
+<div class="flex items-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">trophy</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">1,842</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">KUPA PUANI</span>
+</div>
+<div class="flex flex-col items-center justify-center text-center">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">hotel_class</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">52</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">YILDIZ</span>
+</div>
+<div class="flex flex-col items-center justify-center text-center">
+<div class="flex items-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span class="font-label-lg text-label-lg font-bold text-on-surface">14.25k</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-0.5">TACTIC XP</span>
+</div>
+</div>
+</section>
+<!-- Overall Performance & Win Rate Analytics (Luminous Gauge Pattern) -->
+<section class="rounded-xl bg-surface-container p-space-md shadow-lg">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">analytics</span>
+<span class="font-headline-md text-headline-md text-on-surface">Genel Muharebe Kaydı</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant">148 Toplam Maç</span>
+</div>
+<div class="flex items-center gap-space-md">
+<!-- SVG Donut Gauge (%66.2 Win Rate) -->
+<div class="relative w-24 h-24 flex-shrink-0 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90" viewBox="0 0 36 36">
+<!-- Defeat Track (Background ring) -->
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<!-- Draw Arc (~9.5%) -->
+<path class="text-outline-variant" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="9.5, 100" stroke-dashoffset="-66.2" stroke-width="3.5"></path>
+<!-- Win Glow Arc (66.2%) -->
+<path class="text-primary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="66.2, 100" stroke-linecap="round" stroke-width="3.5" style="filter: drop-shadow(0 0 4px rgba(242, 202, 80, 0.45));"></path>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-headline-md text-headline-md text-primary font-bold leading-tight">%66.2</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Kazanma</span>
+</div>
+</div>
+<!-- W / L / D Metrics Pillar -->
+<div class="flex-1 flex flex-col justify-center space-y-2">
+<!-- Win Metric -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-primary shadow-[0_0_8px_rgba(242,202,80,0.6)]"></span>
+<span class="font-body-md text-body-md text-on-surface">Galibiyet (W)</span>
+</div>
+<span class="font-label-lg text-label-lg font-bold text-primary">98</span>
+</div>
+<!-- Defeat Metric -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span class="font-body-md text-body-md text-on-surface">Mağlubiyet (L)</span>
+</div>
+<span class="font-label-lg text-label-lg font-bold text-error">36</span>
+</div>
+<!-- Draw Metric -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-outline-variant"></span>
+<span class="font-body-md text-body-md text-on-surface">Beraberlik (=)</span>
+</div>
+<span class="font-label-lg text-label-lg font-bold text-on-surface-variant">14</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Game Disciplines: Interactive Dossier Accordion -->
+<section class="space-y-2">
+<div class="flex items-center justify-between px-1">
+<span class="font-title-lg text-title-lg text-on-surface">Disiplin İstatistikleri</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Canlı Veri</span>
+</div>
+<!-- Item 1: Türk Daması (Active Expanded State) -->
+<div class="game-dossier rounded-xl bg-surface-container p-space-md shadow-md transition-all duration-300">
+<div class="cursor-pointer flex items-center justify-between" onclick="toggleAccordion('dama-content', 'dama-chevron')">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[24px]">view_module</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">Türk Daması</span>
+<span class="bg-primary/20 text-primary px-1.5 py-0.2 rounded font-label-sm text-label-sm font-bold">%71 W</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">62 Karşılaşma Tamamlandı</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[22px] transition-transform duration-200 rotate-180" id="dama-chevron">expand_more</span>
+</div>
+<div class="mt-space-md pt-space-sm grid grid-cols-2 gap-2 bg-surface-container-lowest/60 rounded-lg p-2.5" id="dama-content">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">EN ÇOK ÇOKLU YEME</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-label-lg text-label-lg text-primary font-bold">4 Taş</span>
+<span class="font-body-sm text-body-sm text-secondary">(Dama Koşusu)</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">EN HIZLI GALİBİYET</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-label-lg text-label-lg text-tertiary font-bold">14 Hamle</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Hızlı Mat</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2: Klasik Satranç -->
+<div class="game-dossier rounded-xl bg-surface-container p-space-md shadow-md transition-all duration-300">
+<div class="cursor-pointer flex items-center justify-between" onclick="toggleAccordion('chess-content', 'chess-chevron')">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[24px]">chess</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">Klasik Satranç</span>
+<span class="bg-primary/20 text-primary px-1.5 py-0.2 rounded font-label-sm text-label-sm font-bold">%62 W</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">58 Karşılaşma Tamamlandı</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[22px] transition-transform duration-200" id="chess-chevron">expand_more</span>
+</div>
+<div class="hidden mt-space-md pt-space-sm grid grid-cols-2 gap-2 bg-surface-container-lowest/60 rounded-lg p-2.5" id="chess-content">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">FAVORİ AÇILIŞ</span>
+<span class="font-label-lg text-label-lg text-primary font-bold mt-0.5 truncate">Vezir Gambiti</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">TAKTIK ÇÖZÜM ORANI</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-label-lg text-label-lg text-tertiary font-bold">%84</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Hatasız</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 3: Çin Daması -->
+<div class="game-dossier rounded-xl bg-surface-container p-space-md shadow-md transition-all duration-300">
+<div class="cursor-pointer flex items-center justify-between" onclick="toggleAccordion('chinese-content', 'chinese-chevron')">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[24px]">grain</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface">Çin Daması</span>
+<span class="bg-primary/20 text-primary px-1.5 py-0.2 rounded font-label-sm text-label-sm font-bold">%64 W</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">28 Karşılaşma Tamamlandı</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant text-[22px] transition-transform duration-200" id="chinese-chevron">expand_more</span>
+</div>
+<div class="hidden mt-space-md pt-space-sm grid grid-cols-2 gap-2 bg-surface-container-lowest/60 rounded-lg p-2.5" id="chinese-content">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">KORİDOR ATLAMA</span>
+<span class="font-label-lg text-label-lg text-primary font-bold mt-0.5">5 Taş Tek Hamlede</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant">HEDEF ÜS DOLUMU</span>
+<span class="font-label-lg text-label-lg text-tertiary font-bold mt-0.5">Ort. 21 Tur</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Achievements & Heirloom Badges Grid -->
+<section class="space-y-space-xs">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">military_tech</span>
+<span class="font-title-lg text-title-lg text-on-surface">Kazanılan Nişanlar</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary cursor-pointer hover:underline">TÜMÜ (16/24)</span>
+</div>
+<div class="grid grid-cols-2 gap-space-xs">
+<!-- Badge 1: Kusursuz İcra -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm shadow-md overflow-hidden flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center shadow-[inset_0_2px_4px_rgba(242,202,80,0.3)] mb-2">
+<span class="material-symbols-outlined text-primary text-[26px]" style="font-variation-settings: 'FILL' 1;">crown</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface text-sm">Kusursuz İcra</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-tight">Tek bir hamle hatası yapmadan kazan</span>
+<div class="mt-2 flex items-center gap-0.5 text-primary">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<!-- Badge 2: Zincirleme Usta -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm shadow-md overflow-hidden flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center shadow-[inset_0_2px_4px_rgba(242,202,80,0.3)] mb-2">
+<span class="material-symbols-outlined text-secondary text-[26px]">electric_bolt</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface text-sm">Zincirleme Usta</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-tight">Damada art arda 3'lü taş sıçraması</span>
+<div class="mt-2 flex items-center gap-0.5 text-secondary">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-surface-container-highest text-[14px]">star</span>
+</div>
+</div>
+<!-- Badge 3: Pat Kurtarıcısı -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm shadow-md overflow-hidden flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center shadow-[inset_0_2px_4px_rgba(147,215,255,0.3)] mb-2">
+<span class="material-symbols-outlined text-tertiary text-[26px]">balance</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface text-sm">Pat Kurtarıcısı</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-tight">-8 Taş gerideyken beraberlik kurtar</span>
+<div class="mt-2 flex items-center gap-0.5 text-tertiary">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+</div>
+<!-- Badge 4: Demir Savunma -->
+<div class="group relative rounded-xl bg-surface-container p-space-sm shadow-md overflow-hidden flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center shadow-[inset_0_2px_4px_rgba(242,202,80,0.3)] mb-2">
+<span class="material-symbols-outlined text-primary text-[26px]">shield</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface text-sm">Demir Savunma</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-1 leading-tight">25 hamle boyunca ana taş kaybetme</span>
+<div class="mt-2 flex items-center gap-0.5 text-primary">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-surface-container-highest text-[14px]">star</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Configuration CTA (Tactile Brass Master Action) -->
+<section class="pt-space-xs">
+<button class="w-full relative overflow-hidden py-3.5 px-space-md rounded-xl bg-gradient-to-b from-primary to-primary-container text-on-primary font-title-lg text-title-lg flex items-center justify-center gap-2 shadow-[0_6px_20px_rgba(212,175,55,0.3)] active:translate-y-0.5 active:shadow-sm transition-all duration-150" onclick="openSettingsModal()">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+<span class="">Ses, Titreşim &amp; Görünüm Ayarları</span>
+</button>
+</section>
+</div>
+<!-- Settings Micro-Modal Simulation (Anchored within wrapper) -->
+<div class="fixed inset-0 z-50 bg-surface-container-lowest/80 backdrop-blur-md hidden items-end sm:items-center justify-center p-screen-edge-padding transition-opacity" id="settings-modal">
+<div class="w-full max-w-sm rounded-xl bg-surface-container-high p-space-lg shadow-[0_16px_40px_rgba(0,0,0,0.9)] space-y-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">settings</span>
+<span class="font-headline-md text-headline-md text-on-surface">Tercihler</span>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant hover:text-on-surface" onclick="closeSettingsModal()">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="space-y-3">
+<!-- Haptic Switch -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">vibration</span>
+<span class="font-body-md text-body-md text-on-surface">Haptik Dokunsal Geri Bildirim</span>
+</div>
+<input checked="" class="accent-primary w-5 h-5 rounded cursor-pointer" type="checkbox">
+</div>
+<!-- Audio Master Switch -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">volume_up</span>
+<span class="font-body-md text-body-md text-on-surface">Taş Çarpma Efektleri</span>
+</div>
+<input checked="" class="accent-secondary w-5 h-5 rounded cursor-pointer" type="checkbox">
+</div>
+<!-- Ambient Glow FX -->
+<div class="flex items-center justify-between p-2 rounded-lg bg-surface-container">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[20px]">flare</span>
+<span class="font-body-md text-body-md text-on-surface">Parlak Hamle Halkaları</span>
+</div>
+<input checked="" class="accent-tertiary w-5 h-5 rounded cursor-pointer" type="checkbox">
+</div>
+</div>
+<button class="w-full py-2.5 rounded-lg bg-primary text-on-primary font-label-lg text-label-lg uppercase tracking-wider font-bold" onclick="closeSettingsModal()">
+        Kaydet ve Kapat
+      </button>
+</div>
+</div>
+</div>
+<script>
+  function toggleAccordion(contentId, chevronId) {
+    const content = document.getElementById(contentId);
+    const chevron = document.getElementById(chevronId);
+    if (!content || !chevron) return;
+    
+    const isHidden = content.classList.contains('hidden');
+    if (isHidden) {
+      content.classList.remove('hidden');
+      chevron.classList.add('rotate-180');
+    } else {
+      content.classList.add('hidden');
+      chevron.classList.remove('rotate-180');
+    }
+  }
+
+  function openSettingsModal() {
+    const modal = document.getElementById('settings-modal');
+    if (modal) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+  }
+
+  function closeSettingsModal() {
+    const modal = document.getElementById('settings-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  }
+
+  document.getElementById('sync-toggle-btn')?.addEventListener('click', function() {
+    const icon = this.querySelector('.material-symbols-outlined');
+    if (icon) {
+      icon.classList.toggle('text-primary');
+      icon.classList.toggle('text-tertiary');
+    }
+  });
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface-container-lowest/90 backdrop-blur-xl shadow-[0_-8px_24px_rgba(0,0,0,0.7)]" data-active-classes="text-primary font-bold"><div class="flex justify-around items-center h-16 px-space-2xs max-w-lg mx-auto"><a class="flex flex-col items-center justify-center w-14 h-14 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="arena" href="#"><span class="material-symbols-outlined text-[22px]">swords</span><span class="font-label-sm text-label-sm mt-space-3xs">Arena</span></a><a class="flex flex-col items-center justify-center w-14 h-14 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="journey" href="#"><span class="material-symbols-outlined text-[22px]">explore</span><span class="font-label-sm text-label-sm mt-space-3xs">Journey</span></a><a class="flex flex-col items-center justify-center w-14 h-14 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="tactics" href="#"><span class="material-symbols-outlined text-[22px]">psychology</span><span class="font-label-sm text-label-sm mt-space-3xs">Tactics</span></a><a aria-current="page" class="flex flex-col items-center justify-center w-14 h-14 rounded-lg transition-colors text-primary font-bold" data-path="profile-&amp;-statistics" href="#"><span class="material-symbols-outlined text-[22px]">query_stats</span><span class="font-label-sm text-label-sm mt-space-3xs">Profil</span></a><a class="flex flex-col items-center justify-center w-14 h-14 rounded-lg text-on-surface-variant hover:text-on-surface transition-colors" data-path="settings" href="#"><span class="material-symbols-outlined text-[22px]">settings</span><span class="font-label-sm text-label-sm mt-space-3xs">Ayarlar</span></a></div></nav>
+
+</body></html>
