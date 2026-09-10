@@ -11,7 +11,28 @@ const PIECE_VALUES: Record<string, number> = {
   k: 20000,
 };
 
-// Piece-Square Tables (from White's perspective; inverted for Black)
+// Opening book common responses (SAN or from/to)
+const OPENING_BOOK_WHITE: { from: Square; to: Square }[] = [
+  { from: 'e2', to: 'e4' }, // King's Pawn
+  { from: 'd2', to: 'd4' }, // Queen's Pawn
+  { from: 'g1', to: 'f3' }, // Zukertort / Réti
+  { from: 'c2', to: 'c4' }, // English Opening
+];
+
+const OPENING_BOOK_BLACK_VS_E4: { from: Square; to: Square }[] = [
+  { from: 'e7', to: 'e5' }, // Open Game
+  { from: 'c7', to: 'c5' }, // Sicilian Defense
+  { from: 'e7', to: 'e6' }, // French Defense
+  { from: 'c7', to: 'c6' }, // Caro-Kann
+];
+
+const OPENING_BOOK_BLACK_VS_D4: { from: Square; to: Square }[] = [
+  { from: 'd7', to: 'd5' }, // Closed Game
+  { from: 'g8', to: 'f6' }, // Indian Defenses
+  { from: 'e7', to: 'e6' }, // Nimzo / Queen's Gambit Declined prep
+];
+
+// Piece-Square Tables (White perspective; inverted for Black)
 const PAWN_TABLE = [
   0,  0,  0,  0,  0,  0,  0,  0,
   50, 50, 50, 50, 50, 50, 50, 50,
@@ -78,12 +99,6 @@ const KING_TABLE_MIDDLE = [
    20, 30, 10,  0,  0, 10, 30, 20
 ];
 
-function getSquareIndex(square: Square): number {
-  const file = square.charCodeAt(0) - 'a'.charCodeAt(0);
-  const rank = 8 - parseInt(square[1], 10);
-  return rank * 8 + file;
-}
-
 function evaluatePosition(game: Chess): number {
   if (game.isCheckmate()) {
     return game.turn() === 'w' ? -99999 : 99999;
@@ -125,7 +140,11 @@ function evaluatePosition(game: Chess): number {
           break;
       }
 
-      const totalVal = baseVal + posVal;
+      // Small center control bonus (d4, e4, d5, e5)
+      const isCenterSquare = (r === 3 || r === 4) && (c === 3 || c === 4);
+      const centerBonus = isCenterSquare ? 15 : 0;
+
+      const totalVal = baseVal + posVal + centerBonus;
       if (piece.color === 'w') {
         score += totalVal;
       } else {
@@ -137,7 +156,7 @@ function evaluatePosition(game: Chess): number {
   return score;
 }
 
-// Alpha-Beta Minimax search
+// Alpha-Beta Minimax search with move ordering
 function alphaBeta(
   game: Chess,
   depth: number,
@@ -150,11 +169,21 @@ function alphaBeta(
   }
 
   const moves = game.moves({ verbose: true });
-  // Move ordering: prioritizes captures for faster cutoffs
+  if (moves.length === 0) {
+    return evaluatePosition(game);
+  }
+
+  // Move ordering: checks first, then high-value captures
   moves.sort((a, b) => {
-    const valA = a.captured ? PIECE_VALUES[a.captured] * 10 - PIECE_VALUES[a.piece] : 0;
-    const valB = b.captured ? PIECE_VALUES[b.captured] * 10 - PIECE_VALUES[b.piece] : 0;
-    return valB - valA;
+    let scoreA = 0;
+    let scoreB = 0;
+    if (a.san.includes('#')) scoreA += 10000;
+    if (b.san.includes('#')) scoreB += 10000;
+    if (a.san.includes('+')) scoreA += 500;
+    if (b.san.includes('+')) scoreB += 500;
+    if (a.captured) scoreA += PIECE_VALUES[a.captured] * 10 - PIECE_VALUES[a.piece];
+    if (b.captured) scoreB += PIECE_VALUES[b.captured] * 10 - PIECE_VALUES[b.piece];
+    return scoreB - scoreA;
   });
 
   if (isMaximizing) {
@@ -183,7 +212,7 @@ function alphaBeta(
 }
 
 /**
- * Calculates the best move for the specified AI difficulty level.
+ * Calculates the best move for the AI, supporting both White and Black play.
  */
 export function getAIMove(
   game: Chess,
@@ -193,20 +222,49 @@ export function getAIMove(
   if (legalMoves.length === 0) return null;
 
   const isWhite = game.turn() === 'w';
+  const history = game.history();
 
-  // 1. Easy level (Acemi ~800 Elo)
+  // 1. Check for immediate winning checkmate in 1 move
+  for (const move of legalMoves) {
+    if (move.san.includes('#')) {
+      return move;
+    }
+  }
+
+  // 2. Opening Book on Move 1
+  if (history.length === 0 && isWhite) {
+    // AI is White on Move 1: pick a sound opening
+    const bookChoice = OPENING_BOOK_WHITE[Math.floor(Math.random() * OPENING_BOOK_WHITE.length)];
+    const matchingMove = legalMoves.find(
+      (m) => m.from === bookChoice.from && m.to === bookChoice.to
+    );
+    if (matchingMove) return matchingMove;
+  } else if (history.length === 1 && !isWhite) {
+    // AI is Black responding to White's first move
+    const firstMove = history[0];
+    let bookChoices = OPENING_BOOK_BLACK_VS_E4;
+    if (firstMove.startsWith('d') || firstMove === 'd4') {
+      bookChoices = OPENING_BOOK_BLACK_VS_D4;
+    }
+    const bookChoice = bookChoices[Math.floor(Math.random() * bookChoices.length)];
+    const matchingMove = legalMoves.find(
+      (m) => m.from === bookChoice.from && m.to === bookChoice.to
+    );
+    if (matchingMove) return matchingMove;
+  }
+
+  // 3. Difficulty: Easy (Acemi ~800 Elo)
   if (difficulty === 'easy') {
-    // 30% chance to make a completely random legal move
-    if (Math.random() < 0.3) {
+    // 25% chance of random legal move
+    if (Math.random() < 0.25) {
       return legalMoves[Math.floor(Math.random() * legalMoves.length)];
     }
-    // Otherwise, evaluate at depth 1 with slight noise
     let bestMove = legalMoves[0];
     let bestScore = isWhite ? -Infinity : Infinity;
 
     for (const move of legalMoves) {
       game.move(move);
-      let score = evaluatePosition(game) + (Math.random() * 40 - 20);
+      let score = evaluatePosition(game) + (Math.random() * 50 - 25);
       game.undo();
 
       if (isWhite ? score > bestScore : score < bestScore) {
@@ -217,13 +275,14 @@ export function getAIMove(
     return bestMove;
   }
 
-  // 2. Medium level (Kulüp ~1400 Elo) -> Depth 2
+  // 4. Difficulty: Medium (Kulüp ~1400 Elo) -> Depth 2
   if (difficulty === 'medium') {
     let bestMove = legalMoves[0];
     let bestScore = isWhite ? -Infinity : Infinity;
 
     for (const move of legalMoves) {
       game.move(move);
+      // Next turn is opponent's turn
       const score = alphaBeta(game, 1, -Infinity, Infinity, !isWhite);
       game.undo();
 
@@ -235,16 +294,20 @@ export function getAIMove(
     return bestMove;
   }
 
-  // 3. Master level (Usta ~1850+ Elo) -> Depth 3
+  // 5. Difficulty: Master (Büyük Usta ~1850+ Elo) -> Depth 3
   let bestMove = legalMoves[0];
   let bestScore = isWhite ? -Infinity : Infinity;
 
-  // Shuffle slightly so games don't always play the exact same opening line
-  const shuffled = [...legalMoves].sort(() => Math.random() - 0.5);
-  // Sort captures first
-  shuffled.sort((a, b) => (b.captured ? 10 : 0) - (a.captured ? 10 : 0));
+  // Move ordering
+  const orderedMoves = [...legalMoves].sort((a, b) => {
+    let sa = a.captured ? PIECE_VALUES[a.captured] * 10 - PIECE_VALUES[a.piece] : 0;
+    let sb = b.captured ? PIECE_VALUES[b.captured] * 10 - PIECE_VALUES[b.piece] : 0;
+    if (a.san.includes('+')) sa += 200;
+    if (b.san.includes('+')) sb += 200;
+    return sb - sa;
+  });
 
-  for (const move of shuffled) {
+  for (const move of orderedMoves) {
     game.move(move);
     const score = alphaBeta(game, 2, -Infinity, Infinity, !isWhite);
     game.undo();
@@ -270,6 +333,13 @@ export function getBestMoveHint(game: Chess): { move: Move; explanation: string 
   let bestScore = isWhite ? -Infinity : Infinity;
 
   for (const move of legalMoves) {
+    if (move.san.includes('#')) {
+      return {
+        move,
+        explanation: `Mat Hamlesi! ${move.san} ile oyunu kazan!`,
+      };
+    }
+
     game.move(move);
     const score = alphaBeta(game, 2, -Infinity, Infinity, !isWhite);
     game.undo();
@@ -285,8 +355,8 @@ export function getBestMoveHint(game: Chess): { move: Move; explanation: string 
     explanation = `${bestMove.to} karesindeki ${bestMove.captured.toUpperCase()} taşını al!`;
   } else if (bestMove.san.includes('+')) {
     explanation = `Şah çek: ${bestMove.san}!`;
-  } else if (bestMove.san.includes('#')) {
-    explanation = `Mat hamlesi: ${bestMove.san}!`;
+  } else if (bestMove.san === 'O-O' || bestMove.san === 'O-O-O') {
+    explanation = `Rok yaparak şahını güvenceye al (${bestMove.san})`;
   }
 
   return { move: bestMove, explanation };

@@ -15,6 +15,14 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.chess.grandmaster"
     },
+    "androidStatusBar": {
+      "hidden": true,
+      "translucent": true
+    },
+    "androidNavigationBar": {
+      "visible": "sticky-immersive",
+      "backgroundColor": "#0b0e14"
+    },
     "android": {
       "package": "com.chess.grandmaster",
       "versionCode": 1,
@@ -26,7 +34,15 @@
       },
       "permissions": [
         "VIBRATE"
-      ]
+      ],
+      "statusBar": {
+        "hidden": true,
+        "translucent": true
+      },
+      "navigationBar": {
+        "visible": "sticky-immersive",
+        "backgroundColor": "#0b0e14"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png",

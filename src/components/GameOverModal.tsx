@@ -37,7 +37,21 @@ export const GameOverModal: React.FC<GameOverModalProps> = ({
   let eloChange = '+24 ELO';
   let eloColor = Colors.primary;
 
-  if (isDraw) {
+  if (status === 'timeout') {
+    if (isPlayerWinner) {
+      emoji = '⏱️';
+      title = 'SÜRE ZAFERİ!';
+      subtitle = 'Yapay zekanın süresi tükendi (Bayrak düştü). Zamanla kazandın!';
+      eloChange = '+20 ELO';
+      eloColor = Colors.primary;
+    } else {
+      emoji = '⏳';
+      title = 'SÜRE DOLDU!';
+      subtitle = 'Hamle süreniz sona erdi (Bayrak düştü).';
+      eloChange = '-16 ELO';
+      eloColor = Colors.error;
+    }
+  } else if (isDraw) {
     emoji = '🤝';
     title = 'BERABERLİK';
     subtitle = status === 'stalemate' ? 'Oyun pat ile sonuçlandı.' : 'Beraberlik sağlandı.';

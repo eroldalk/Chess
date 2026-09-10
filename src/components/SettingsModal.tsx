@@ -58,6 +58,35 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             })}
           </View>
 
+          {/* Time Control Selection */}
+          <Text style={styles.sectionTitle}>Süre Kontrolü (Saat)</Text>
+          <View style={styles.timeRow}>
+            {(
+              [
+                { id: '3m', label: '3 Dk', sub: 'Yıldırım' },
+                { id: '5m', label: '5 Dk', sub: 'Yıldırım' },
+                { id: '10m', label: '10 Dk', sub: 'Hızlı' },
+                { id: '15m', label: '15 Dk', sub: 'Klasik' },
+                { id: 'unlimited', label: 'Süresiz', sub: 'Serbest' },
+              ] as const
+            ).map((t) => {
+              const isSelected = settings.timeControl === t.id;
+              return (
+                <TouchableOpacity
+                  key={t.id}
+                  style={[styles.timeBtn, isSelected && styles.selectedTimeBtn]}
+                  onPress={() => onUpdateSettings({ timeControl: t.id })}
+                  activeOpacity={0.7}
+                >
+                  <Text style={[styles.timeBtnLabel, isSelected && { color: Colors.primary }]}>
+                    {t.label}
+                  </Text>
+                  <Text style={styles.timeBtnSub}>{t.sub}</Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
           {/* Player Color Selection */}
           <Text style={styles.sectionTitle}>Oynayacağınız Renk</Text>
           <View style={styles.colorRow}>
@@ -76,7 +105,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   settings.playerColor === 'w' && { color: Colors.primary },
                 ]}
               >
-                Beyaz (İlk Başlar)
+                Beyaz
               </Text>
             </TouchableOpacity>
 
@@ -191,6 +220,33 @@ const styles = StyleSheet.create({
   difficultyGrid: {
     flexDirection: 'row',
     gap: 8,
+  },
+  timeRow: {
+    flexDirection: 'row',
+    gap: 6,
+  },
+  timeBtn: {
+    flex: 1,
+    backgroundColor: Colors.surfaceContainerLowest,
+    borderRadius: 8,
+    paddingVertical: 8,
+    alignItems: 'center',
+    borderWidth: 1.5,
+    borderColor: 'transparent',
+  },
+  selectedTimeBtn: {
+    borderColor: Colors.primary,
+    backgroundColor: 'rgba(242, 202, 80, 0.08)',
+  },
+  timeBtnLabel: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: Colors.onSurface,
+  },
+  timeBtnSub: {
+    fontSize: 9,
+    color: Colors.onSurfaceVariant,
+    marginTop: 1,
   },
   diffCard: {
     flex: 1,

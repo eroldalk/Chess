@@ -11,14 +11,27 @@ import { Colors } from '../theme/colors';
 interface ProfileScreenProps {
   onOpenSettings: () => void;
   onPlayNow: () => void;
+  onBackToArena?: () => void;
 }
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({
   onOpenSettings,
   onPlayNow,
+  onBackToArena,
 }) => {
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+      {/* Return to Arena Header Button */}
+      {onBackToArena && (
+        <TouchableOpacity
+          style={styles.returnArenaButton}
+          onPress={onBackToArena}
+          activeOpacity={0.8}
+        >
+          <Text style={styles.returnArenaText}>← Satranç Arenasına Geri Dön</Text>
+        </TouchableOpacity>
+      )}
+
       {/* Player Dossier Card */}
       <View style={styles.profileCard}>
         <View style={styles.avatarRow}>
@@ -354,4 +367,20 @@ const styles = StyleSheet.create({
     color: Colors.outline,
     marginTop: 2,
   },
+  returnArenaButton: {
+    backgroundColor: Colors.surfaceContainerHigh,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(242, 202, 80, 0.25)',
+    marginBottom: 14,
+    alignSelf: 'flex-start',
+  },
+  returnArenaText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: Colors.primary,
+  },
 });
+

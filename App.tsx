@@ -1,11 +1,15 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
+  BackHandler,
+  Platform,
   SafeAreaView,
   ScrollView,
-  StatusBar,
+  StatusBar as RNStatusBar,
   StyleSheet,
+  ToastAndroid,
   View,
 } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { ChessGameEngine } from './src/logic/chessEngine';
 import { getAIMove, getBestMoveHint } from './src/logic/chessAI';
 import { Colors } from './src/theme/colors';
@@ -17,6 +21,7 @@ import {
   PieceColor,
   PieceType,
   Square,
+  TimeControl,
 } from './src/types/chess';
 import { HeaderBar } from './src/components/HeaderBar';
 import { StageBanner } from './src/components/StageBanner';
@@ -33,8 +38,16 @@ import { HistoryModal } from './src/components/HistoryModal';
 import { BottomNavBar, AppTab } from './src/components/BottomNavBar';
 import { CareerScreen } from './src/components/CareerScreen';
 import { ProfileScreen } from './src/components/ProfileScreen';
+import { SplashScreen } from './src/components/SplashScreen';
+import { NewGameModal } from './src/components/NewGameModal';
 
-const INITIAL_TIME_SECONDS = 600; // 10 minutes rapid
+const TIME_CONTROL_SECONDS: Record<TimeControl, number> = {
+  '3m': 180,
+  '5m': 300,
+  '10m': 600,
+  '15m': 900,
+  'unlimited': 999999,
+};
 
 const AI_PROFILES: Record<AIDifficulty, { name: string; rating: number; icon: string }> = {
   easy: { name: 'Acemi Bot', rating: 800, icon: '🌱' },
@@ -45,11 +58,16 @@ const AI_PROFILES: Record<AIDifficulty, { name: string; rating: number; icon: st
 export default function App() {
   const engineRef = useRef(new ChessGameEngine());
   const engine = engineRef.current;
+  const lastBackPressRef = useRef<number>(0);
+
+  // App Initial Splash Screen State
+  const [isAppLoading, setIsAppLoading] = useState<boolean>(true);
 
   // Settings State
   const [settings, setSettings] = useState<GameSettings>({
     difficulty: 'master',
     playerColor: 'w',
+    timeControl: '10m',
     soundEnabled: true,
     hapticEnabled: true,
     showLegalMoves: true,
@@ -57,6 +75,11 @@ export default function App() {
 
   // Current Navigation Tab
   const [currentTab, setCurrentTab] = useState<AppTab>('arena');
+
+  // Ensure native Android status bar is completely hidden (removes clock, battery, icons)
+  useEffect(() => {
+    RNStatusBar.setHidden(true, 'none');
+  }, []);
 
   // Board & Game State
   const [board, setBoard] = useState(engine.getBoard());
@@ -74,8 +97,8 @@ export default function App() {
   const [isAiThinking, setIsAiThinking] = useState<boolean>(false);
 
   // Clocks
-  const [whiteTime, setWhiteTime] = useState<number>(INITIAL_TIME_SECONDS);
-  const [blackTime, setBlackTime] = useState<number>(INITIAL_TIME_SECONDS);
+  const [whiteTime, setWhiteTime] = useState<number>(TIME_CONTROL_SECONDS['10m']);
+  const [blackTime, setBlackTime] = useState<number>(TIME_CONTROL_SECONDS['10m']);
 
   // Modals & UI alerts
   const [tacticalAlert, setTacticalAlert] = useState<{
@@ -91,11 +114,58 @@ export default function App() {
     to: Square;
   } | null>(null);
   const [showSettings, setShowSettings] = useState<boolean>(false);
+  const [showNewGameModal, setShowNewGameModal] = useState<boolean>(false);
   const [showHistory, setShowHistory] = useState<boolean>(false);
   const [showGameOver, setShowGameOver] = useState<boolean>(false);
 
-  // Helper to format seconds as MM:SS
+  // Prevent accidental app exit on Android navigation gestures & taps
+  useEffect(() => {
+    const onBackPress = () => {
+      if (showGameOver) {
+        setShowGameOver(false);
+        return true;
+      }
+      if (showSettings) {
+        setShowSettings(false);
+        return true;
+      }
+      if (showNewGameModal) {
+        setShowNewGameModal(false);
+        return true;
+      }
+      if (showHistory) {
+        setShowHistory(false);
+        return true;
+      }
+      if (currentTab !== 'arena') {
+        setCurrentTab('arena');
+        return true; // Return to arena instead of closing app
+      }
+
+      // Root arena: require double tap within 2s to exit, protecting against bottom gestures
+      const now = Date.now();
+      if (now - lastBackPressRef.current < 2000) {
+        BackHandler.exitApp();
+        return true;
+      }
+      lastBackPressRef.current = now;
+      if (Platform.OS === 'android') {
+        ToastAndroid.show('Uygulamadan çıkmak için tekrar dokunun', ToastAndroid.SHORT);
+      }
+      return true; // Block single back tap from exiting!
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      onBackPress
+    );
+
+    return () => backHandler.remove();
+  }, [currentTab, showGameOver, showSettings, showNewGameModal, showHistory]);
+
+  // Helper to format seconds as MM:SS (or '∞' for unlimited)
   const formatTime = (seconds: number) => {
+    if (settings.timeControl === 'unlimited') return '∞';
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
@@ -159,18 +229,32 @@ export default function App() {
     }
   }, [engine, settings.playerColor, updateCheckState]);
 
-  // Timer interval
+  // Timer interval: tracks active turn time and triggers timeout forfeit
   useEffect(() => {
-    if (gameStatus !== 'active') return;
+    if (
+      gameStatus !== 'active' ||
+      settings.timeControl === 'unlimited' ||
+      isAppLoading ||
+      showSettings ||
+      showNewGameModal ||
+      showGameOver
+    ) {
+      return;
+    }
 
     const timer = setInterval(() => {
       if (turn === 'w') {
         setWhiteTime((prev) => {
           if (prev <= 1) {
             clearInterval(timer);
-            setGameStatus('resigned');
+            setGameStatus('timeout');
             setWinner('b');
             setShowGameOver(true);
+            setTacticalAlert({
+              message: settings.playerColor === 'w' ? 'Zamanınız tükendi!' : 'Yapay zekanın süresi doldu!',
+              subBadge: 'SÜRE',
+              isWarning: true,
+            });
             return 0;
           }
           return prev - 1;
@@ -179,9 +263,14 @@ export default function App() {
         setBlackTime((prev) => {
           if (prev <= 1) {
             clearInterval(timer);
-            setGameStatus('resigned');
+            setGameStatus('timeout');
             setWinner('w');
             setShowGameOver(true);
+            setTacticalAlert({
+              message: settings.playerColor === 'b' ? 'Zamanınız tükendi!' : 'Yapay zekanın süresi doldu!',
+              subBadge: 'SÜRE',
+              isWarning: true,
+            });
             return 0;
           }
           return prev - 1;
@@ -190,16 +279,18 @@ export default function App() {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [turn, gameStatus]);
+  }, [turn, gameStatus, settings.timeControl, settings.playerColor, isAppLoading, showSettings, showNewGameModal, showGameOver]);
 
-  // AI Turn Trigger
+  // AI Turn Trigger (Handles both White and Black AI play)
   useEffect(() => {
+    if (isAppLoading) return;
+
     const isAiTurn = turn !== settings.playerColor;
     if (isAiTurn && gameStatus === 'active') {
       setIsAiThinking(true);
 
-      // Human-like pause for calculation
-      const delay = settings.difficulty === 'master' ? 500 : 350;
+      // Natural calculation delay
+      const delay = settings.difficulty === 'master' ? 450 : 300;
       const timeout = setTimeout(() => {
         try {
           const aiMove = getAIMove(engine.getChessInstance(), settings.difficulty);
@@ -220,7 +311,46 @@ export default function App() {
 
       return () => clearTimeout(timeout);
     }
-  }, [turn, settings.playerColor, settings.difficulty, gameStatus, engine, syncGameState]);
+  }, [turn, settings.playerColor, settings.difficulty, gameStatus, engine, syncGameState, isAppLoading]);
+
+  // Start a fresh game with new configurations
+  const startNewGame = (
+    color: PieceColor = settings.playerColor,
+    timeControl: TimeControl = settings.timeControl,
+    difficulty: AIDifficulty = settings.difficulty
+  ) => {
+    setSettings((prev) => ({
+      ...prev,
+      playerColor: color,
+      timeControl,
+      difficulty,
+    }));
+
+    engine.reset();
+    setSelectedSquare(null);
+    setLegalMoves([]);
+    setLastMove(null);
+    setCheckSquare(null);
+    setHintTarget(null);
+    setUndoCount(0);
+    setPromotionPending(null);
+
+    const initialSec = TIME_CONTROL_SECONDS[timeControl];
+    setWhiteTime(initialSec);
+    setBlackTime(initialSec);
+
+    setIsAiThinking(false);
+    setShowGameOver(false);
+    syncGameState();
+
+    setTacticalAlert({
+      message:
+        color === 'w'
+          ? 'Yeni maç başladı! Beyaz ile ilk hamleyi yap.'
+          : 'Yeni maç başladı! Siyahsın, Yapay Zeka ilk hamleyi yapıyor...',
+      subBadge: 'YENİ',
+    });
+  };
 
   // Handle Square Selection and Moves
   const handleSquarePress = (square: Square) => {
@@ -336,26 +466,6 @@ export default function App() {
     setShowGameOver(true);
   };
 
-  // Restart / New Game
-  const handleNewGame = () => {
-    engine.reset();
-    setSelectedSquare(null);
-    setLegalMoves([]);
-    setLastMove(null);
-    setCheckSquare(null);
-    setHintTarget(null);
-    setUndoCount(0);
-    setWhiteTime(INITIAL_TIME_SECONDS);
-    setBlackTime(INITIAL_TIME_SECONDS);
-    setIsAiThinking(false);
-    setShowGameOver(false);
-    syncGameState();
-    setTacticalAlert({
-      message: 'Yeni oyun başladı! Bol şanslar.',
-      subBadge: 'YENİ',
-    });
-  };
-
   // Current active opponent info based on difficulty setting
   const aiProfile = AI_PROFILES[settings.difficulty];
   const isPlayerTurn = turn === settings.playerColor;
@@ -366,14 +476,28 @@ export default function App() {
   const opponentTime = settings.playerColor === 'w' ? blackTime : whiteTime;
   const playerTime = settings.playerColor === 'w' ? whiteTime : blackTime;
 
+  const opponentLowTime = settings.timeControl !== 'unlimited' && opponentTime <= 30;
+  const playerLowTime = settings.timeControl !== 'unlimited' && playerTime <= 30;
+
   const lastMoveText =
     history.length > 0
       ? `${history.length % 2 === 1 ? 'Beyaz' : 'Siyah'} ...${history[history.length - 1]}`
       : 'Henüz hamle yapılmadı';
 
+  // If initial loading screen is active, show the splash screen
+  if (isAppLoading) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar hidden={true} style="light" translucent={true} />
+        <SplashScreen onFinish={() => setIsAppLoading(false)} />
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor={Colors.background} />
+      {/* Hidden Status Bar: removes battery, clock, notifications from screen */}
+      <StatusBar hidden={true} style="light" translucent={true} />
 
       {/* Top App Header */}
       <HeaderBar
@@ -384,19 +508,34 @@ export default function App() {
             ? 'Profil & İstatistikler'
             : 'Aktif Oyun Arenası'
         }
-        onHomePress={() => setCurrentTab('career')}
+        onHomePress={() => {
+          if (currentTab !== 'arena') {
+            setCurrentTab('arena');
+          } else {
+            setCurrentTab('career');
+          }
+        }}
         onProfilePress={() => setCurrentTab('profile')}
         onSettingsPress={() => setShowSettings(true)}
       />
 
       {currentTab === 'career' && (
-        <CareerScreen onStartMatch={() => setCurrentTab('arena')} />
+        <CareerScreen
+          onStartMatch={() => {
+            setCurrentTab('arena');
+            setShowNewGameModal(true);
+          }}
+        />
       )}
 
       {currentTab === 'profile' && (
         <ProfileScreen
           onOpenSettings={() => setShowSettings(true)}
-          onPlayNow={() => setCurrentTab('arena')}
+          onPlayNow={() => {
+            setCurrentTab('arena');
+            setShowNewGameModal(true);
+          }}
+          onBackToArena={() => setCurrentTab('arena')}
         />
       )}
 
@@ -422,6 +561,7 @@ export default function App() {
             isTurn={!isPlayerTurn && gameStatus === 'active'}
             capturedPieces={opponentCaptured}
             timeFormatted={formatTime(opponentTime)}
+            isLowTime={opponentLowTime}
           />
 
           {/* Tactical Notification Banner */}
@@ -452,6 +592,7 @@ export default function App() {
             playerColor={settings.playerColor}
             isTurn={isPlayerTurn && gameStatus === 'active'}
             timeFormatted={formatTime(playerTime)}
+            isLowTime={playerLowTime}
             hapticEnabled={settings.hapticEnabled}
           />
 
@@ -461,7 +602,7 @@ export default function App() {
             onHint={handleHint}
             onSettings={() => setShowSettings(true)}
             onResign={handleResign}
-            onNewGame={handleNewGame}
+            onNewGame={() => setShowNewGameModal(true)}
             undoCount={undoCount}
             hintActive={!!hintTarget}
             disabled={gameStatus !== 'active' || isAiThinking}
@@ -475,8 +616,21 @@ export default function App() {
         </ScrollView>
       )}
 
-      {/* Bottom Navigation Bar */}
+      {/* Bottom Navigation Bar with Safe Padding */}
       <BottomNavBar currentTab={currentTab} onTabChange={setCurrentTab} />
+
+      {/* New Game Dialog: Color & Time Control Selection */}
+      <NewGameModal
+        visible={showNewGameModal}
+        currentColor={settings.playerColor}
+        currentTimeControl={settings.timeControl}
+        currentDifficulty={settings.difficulty}
+        onStartGame={({ color, timeControl, difficulty }) => {
+          startNewGame(color, timeControl, difficulty);
+          setShowNewGameModal(false);
+        }}
+        onClose={() => setShowNewGameModal(false)}
+      />
 
       {/* Pawn Promotion Modal */}
       <PromotionModal
@@ -492,7 +646,10 @@ export default function App() {
         winner={winner}
         playerColor={settings.playerColor}
         moveCount={history.length}
-        onRestart={handleNewGame}
+        onRestart={() => {
+          setShowGameOver(false);
+          setShowNewGameModal(true);
+        }}
         onClose={() => setShowGameOver(false)}
       />
 
@@ -502,6 +659,14 @@ export default function App() {
         settings={settings}
         onUpdateSettings={(newVals) => {
           setSettings((prev) => ({ ...prev, ...newVals }));
+          if (newVals.playerColor && newVals.playerColor !== settings.playerColor) {
+            startNewGame(newVals.playerColor, settings.timeControl, settings.difficulty);
+          }
+          if (newVals.timeControl && newVals.timeControl !== settings.timeControl) {
+            const initialSec = TIME_CONTROL_SECONDS[newVals.timeControl];
+            setWhiteTime(initialSec);
+            setBlackTime(initialSec);
+          }
         }}
         onClose={() => setShowSettings(false)}
       />

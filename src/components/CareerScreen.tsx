@@ -45,10 +45,6 @@ export const CareerScreen: React.FC<CareerScreenProps> = ({ onStartMatch }) => {
           <Text style={styles.modeIcon}>♟️</Text>
           <Text style={[styles.modeChipText, styles.modeChipTextActive]}>Klasik Satranç</Text>
         </TouchableOpacity>
-        <View style={styles.modeChipDisabled}>
-          <Text style={styles.modeIcon}>⚪</Text>
-          <Text style={styles.modeChipTextDisabled}>Türk Daması (v1.1)</Text>
-        </View>
       </View>
 
       {/* Chapter Overview Card */}

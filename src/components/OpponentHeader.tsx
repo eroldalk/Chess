@@ -10,6 +10,7 @@ interface OpponentHeaderProps {
   isTurn: boolean;
   capturedPieces: PieceType[];
   timeFormatted: string;
+  isLowTime?: boolean;
 }
 
 const PIECE_UNICODE: Record<PieceType, string> = {
@@ -28,6 +29,7 @@ export const OpponentHeader: React.FC<OpponentHeaderProps> = ({
   isTurn,
   capturedPieces,
   timeFormatted,
+  isLowTime = false,
 }) => {
   return (
     <View style={[styles.container, isTurn && styles.activeContainer]}>
@@ -67,9 +69,21 @@ export const OpponentHeader: React.FC<OpponentHeaderProps> = ({
       </View>
 
       {/* Opponent Chronometer */}
-      <View style={[styles.timerBox, isTurn && styles.activeTimerBox]}>
-        <Text style={styles.timerIcon}>⏳</Text>
-        <Text style={[styles.timerText, isTurn && styles.activeTimerText]}>
+      <View
+        style={[
+          styles.timerBox,
+          isTurn && styles.activeTimerBox,
+          isTurn && isLowTime && styles.urgentTimerBox,
+        ]}
+      >
+        <Text style={styles.timerIcon}>{isLowTime && isTurn ? '⚠️' : '⏳'}</Text>
+        <Text
+          style={[
+            styles.timerText,
+            isTurn && styles.activeTimerText,
+            isTurn && isLowTime && styles.urgentTimerText,
+          ]}
+        >
           {timeFormatted}
         </Text>
       </View>
@@ -185,6 +199,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.secondary,
   },
+  urgentTimerBox: {
+    backgroundColor: 'rgba(255, 180, 171, 0.2)',
+    borderColor: Colors.error,
+  },
   timerIcon: {
     fontSize: 12,
     marginRight: 4,
@@ -197,5 +215,8 @@ const styles = StyleSheet.create({
   },
   activeTimerText: {
     color: Colors.secondary,
+  },
+  urgentTimerText: {
+    color: Colors.error,
   },
 });

@@ -13,6 +13,8 @@ export type Square =
 
 export type AIDifficulty = 'easy' | 'medium' | 'master';
 
+export type TimeControl = '3m' | '5m' | '10m' | '15m' | 'unlimited';
+
 export interface AIDifficultyConfig {
   name: string;
   rating: number;
@@ -28,7 +30,8 @@ export type GameStatus =
   | 'draw_repetition'
   | 'draw_insufficient_material'
   | 'draw_50_moves'
-  | 'resigned';
+  | 'resigned'
+  | 'timeout';
 
 export interface MoveRecord {
   from: Square;
@@ -55,6 +58,7 @@ export interface PlayerProfile {
 export interface GameSettings {
   difficulty: AIDifficulty;
   playerColor: PieceColor;
+  timeControl: TimeControl;
   soundEnabled: boolean;
   hapticEnabled: boolean;
   showLegalMoves: boolean;

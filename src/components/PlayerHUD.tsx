@@ -9,6 +9,7 @@ interface PlayerHUDProps {
   playerColor: PieceColor;
   isTurn: boolean;
   timeFormatted: string;
+  isLowTime?: boolean;
   hapticEnabled?: boolean;
 }
 
@@ -18,6 +19,7 @@ export const PlayerHUD: React.FC<PlayerHUDProps> = ({
   playerColor,
   isTurn,
   timeFormatted,
+  isLowTime = false,
   hapticEnabled = true,
 }) => {
   const colorLabel = playerColor === 'w' ? 'Beyaz' : 'Siyah';
@@ -60,9 +62,21 @@ export const PlayerHUD: React.FC<PlayerHUDProps> = ({
       </View>
 
       {/* Digital Chronometer */}
-      <View style={[styles.timerBox, isTurn && styles.activeTimerBox]}>
-        <Text style={styles.timerIcon}>⏱️</Text>
-        <Text style={[styles.timerText, isTurn && styles.activeTimerText]}>
+      <View
+        style={[
+          styles.timerBox,
+          isTurn && styles.activeTimerBox,
+          isTurn && isLowTime && styles.urgentTimerBox,
+        ]}
+      >
+        <Text style={styles.timerIcon}>{isLowTime && isTurn ? '⚠️' : '⏱️'}</Text>
+        <Text
+          style={[
+            styles.timerText,
+            isTurn && styles.activeTimerText,
+            isTurn && isLowTime && styles.urgentTimerText,
+          ]}
+        >
           {timeFormatted}
         </Text>
       </View>
@@ -179,6 +193,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.primary,
   },
+  urgentTimerBox: {
+    backgroundColor: 'rgba(255, 180, 171, 0.2)',
+    borderColor: Colors.error,
+  },
   timerIcon: {
     fontSize: 12,
     marginRight: 4,
@@ -191,5 +209,8 @@ const styles = StyleSheet.create({
   },
   activeTimerText: {
     color: Colors.primary,
+  },
+  urgentTimerText: {
+    color: Colors.error,
   },
 });

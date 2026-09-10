@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Colors } from '../theme/colors';
 
 export type AppTab = 'career' | 'arena' | 'profile';
@@ -16,7 +16,7 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
   const tabs: { id: AppTab; label: string; icon: string }[] = [
     { id: 'career', label: 'Kariyer', icon: '🗺️' },
     { id: 'arena', label: 'Arena (Oyna)', icon: '♟️' },
-    { id: 'profile', label: 'Profil & İstatistik', icon: '👤' },
+    { id: 'profile', label: 'Profil', icon: '👤' },
   ];
 
   return (
@@ -29,6 +29,7 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
             style={[styles.tabButton, isActive && styles.tabButtonActive]}
             onPress={() => onTabChange(tab.id)}
             activeOpacity={0.7}
+            hitSlop={{ top: 8, bottom: 0, left: 6, right: 6 }}
           >
             <Text style={[styles.tabIcon, isActive && styles.tabIconActive]}>
               {tab.icon}
@@ -47,17 +48,19 @@ export const BottomNavBar: React.FC<BottomNavBarProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    height: 64,
+    height: Platform.OS === 'android' ? 82 : 72,
     backgroundColor: Colors.surfaceContainerLowest,
-    borderTopWidth: 1,
+    borderTopWidth: 1.5,
     borderTopColor: 'rgba(255, 255, 255, 0.08)',
     alignItems: 'center',
     justifyContent: 'space-around',
-    paddingHorizontal: 8,
+    paddingHorizontal: 16,
+    paddingTop: 6,
+    paddingBottom: Platform.OS === 'android' ? 22 : 12,
   },
   tabButton: {
     flex: 1,
-    height: 52,
+    height: 48,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 12,

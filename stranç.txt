@@ -1,0 +1,152 @@
+Google Play Store'da satranç oyunlarının tutulmasını sağlayan ve kullanıcıyı uygulamaya bağlayan özellikleri **4 ana kategoriye** ayırabiliriz. 
+
+Lüks ve modern bir satranç uygulamasında yer alabilecek özellikler:
+
+---
+
+### 1. Oyun Modları (Kullanıcıyı İçeride Tutanlar)
+
+* 🤖 **Yapay Zekaya Karşı (Farklı Seviyeler):**
+  * **Kolay / Orta / Zor** botlar.
+  * Hatta daha eğlencelisi: **Farklı Karakterli Botlar** (Örn: *Agresif Saldırgan Bot*, *Defansif Bot*, *Yeni Başlayan Çocuk Bot*).
+* 👥 **Aynı Cihazda 2 Kişi (Pass & Play):**
+  * Masaya telefonu koyup karşılıklı oynama modu.
+  * **Ters Çevirme (Flip Board):** Sıra siyaha geçtiğinde taşların ve koordinatların siyahın açısına dönmesi.
+* 🧩 **Günlük Bulmacalar (Puzzles / Taktik Modu):**
+  * *"1 Hamlede Mat"*, *"Vezir Tuzağı"* gibi küçük seviyeli bulmacalar. Play Store'da kullanıcıların her gün uygulamayı açmasını sağlayan en büyük özelliktir!
+* ⏱️ **Zaman Modları (Satranç Saati):**
+  * Bullet (1 dk), Blitz (3 dk, 5 dk), Rapid (10 dk) ve Fischer artırmalı süreler (+2 sn).
+
+---
+
+### 2. Arayüz ve Lüks Hissiyat (Görsellik & UX)
+
+* 🎨 **Tahta ve Taş Temaları (Kişiselleştirme):**
+  * **Tahta:** Klasik Ceviz Ahşap, Lüks Mermer, Derin Gece Modu (OLED Dark), Neon/Cam tahta.
+  * **Taşlar:** Klasik Staunton, Modern Minimalist, Ahşap Oymalı taşlar.
+* 📳 **Titreşim (Haptic Feedback) & Ses:**
+  * Taşı kareye bırakınca tok tahta sesi ve telefonda mikro titreşim.
+  * Taş yerken güçlü bir vuruş sesi, şah çekildiğinde uyarı sesi.
+* ⚔️ **Yenen Taşlar ve Puan Farkı (Material Advantage):**
+  * Tahtanın kenarında yenilen taşların listesi ve üstünlük göstergesi (örneğin: `Beyaz +3 önde`).
+* 💡 **Akıllı Vurgular (Highlights):**
+  * Seçilen taşın gidebileceği noktalar (nokta veya halka).
+  * Son yapılan hamlenin sarı renkle işaretlenmesi.
+  * Şah tehdit altındayken şah karesinin kırmızı parlaması.
+
+---
+
+### 3. Yardımcı ve Eğitici Özellikler (Yeni Başlayanlar İçin)
+
+* ↩️ **Hamle Geri Alma (Undo) & İpucu (Hint):**
+  * Botla oynarken hatalı hamleyi geri alma veya *"En iyi hamle neydi?"* diye ipucu isteme.
+* 🎯 **Tehdit Haritası (Threat Vision):**
+  * Bir butona basıldığında rakibin hangi kareleri kontrol ettiğini tahtada hafif kırmızı gölgeyle gösterme.
+* 📜 **Hamle Geçmişi & Notasyon:**
+  * Altta veya yanda standart satranç notasyonu (`1. e4 e5 2. Af3 Ac6...`).
+* 📋 **FEN / PGN Desteği:**
+  * Tahta pozisyonunu kopyalayıp panoya alma veya bir satranç pozisyonunu yapıştırıp oradan devam edebilme.
+
+---
+
+### 4. Oyunlaştırma & Play Store Özellikleri (Tutundurma)
+
+* 🏆 **ELO / Seviye Sistemi:**
+  * Botları yendikçe artan kupa/puan sistemi (Örn: 800 ELO'dan başlayıp 2000'e yükselme).
+* 🎖️ **Başarımlar (Google Play Games Achievements):**
+  * *"İlk Çoban Matı"*, *"At ile Çatal Attın"*, *"50 Oyun Tamamla"*, *"Vezirsiz Kazandın"*.
+* 📊 **Profil ve İstatistikler:**
+  * Kazanma / Kaybetme / Beraberlik oranları, en çok oynanan açılışlar.
+
+---
+
+### 🚀 Nereden Başlamalıyız? (MVP - İlk Sürüm)
+
+İlk sürümde hepsini birden yapmak yerine şu **4 temel özelliği** oturtmak harika bir başlangıç olur:
+1. **Pass & Play (Aynı ekranda 2 kişi)**
+2. **Kolay / Orta seviye Çevrimdışı Bot**
+3. **Hamle Geri Alma (Undo) + Ses ve Titreşim**
+4. **2 farklı tema (Ahşap & Koyu Tema)**
+
+Bu temel oturduktan sonra bulmaca ve online modları güncelleme olarak ekleyebilirsin. Hangileri senin kafandaki vizyona en çok uyuyor?
+
+
+
+
+
+Play Store'da binlerce sıradan satranç oyunu var. Ancak öne çıkan ve organik olarak milyonlarca indirilen uygulamalar **satrancı "sıkıcı bir tahta" olmaktan çıkarıp bir deneyime dönüştürenlerdir.**
+
+Uygulamanı rakiplerinden (Chess.com, Lichess vb.) tamamen ayıracak **en yaratıcı ve trend farklılaştırıcı özellikler**:
+
+---
+
+### 1. "Zen / ASMR Satranç" Modu (En Büyük Açık Niş) ☕🌧️
+Play Store'da "Rahatlatıcı / Cozy" oyunlar inanılmaz popülerdir.
+* **Arka Plan Atmosferi:** Arka planda hafif yağmur sesi, şömine çıtırtısı veya lo-fi müzik.
+* **Gerçekçi Dokunsal Hissiyat (ASMR):** Taşa her dokunuşta kaliteli ahşap tok sesi, taş yerken mükemmel bir vuruş hissi ve telefonun haptik titreşimi.
+* **Stres Yok:** Zaman sayacı olmayan, kahve içerken dinlenmek için tasarlanmış minimalist bir mod.
+
+---
+
+### 2. "Konuşan / Kişilikli Yapay Zeka" (Trash-Talk & Koç Botlar) 💬🤖
+Botlar sadece taş oynatmasın, seninle sohbet etsin ve hamlelerine tepki versin!
+* **Alaycı / Troll Bot:** Kötü bir hamle yaptığında ekranda konuşma balonu çıkar: *"O veziri bana hediye ettiğine emin misin? 😏"*
+* **Centilmen / Usta Bot:** İyi bir hamle yaptığında: *"Vay canına, Kasparov musun be mübarek!"* der.
+* **Korkak Bot:** Taşlarını kaybettikçe titreyen ve paniğe kapılan bir yapay zeka.
+*(Bu özellik TikTok ve Instagram Reels'te paylaşılmak için birebirdir; uygulamanın kendi kendine viral olmasını sağlar.)*
+
+---
+
+### 3. Sinematik "Mat Kamerası" (Checkmate Slow-Mo) 🎬👑
+Diğer tüm oyunlarda mat olunca ekranda sadece "Beyaz Kazandı" yazar. Bizde:
+* Son ölümcül hamle yapıldığında ekran hafif kararır,
+* Kamera mat yapan taşa odaklanır (sinematik ağır çekim),
+* Karşı tarafın şahı tahtada yavaşça devrilir. 
+* Oyuncuya müthiş bir **zafer tatmini** yaşatır!
+
+---
+
+### 4. "Savaş Sisi" (Fog of War) Modu 🌫️⚔️
+* Tahtanın tamamını göremezsin!
+* Sadece **kendi taşlarının görebildiği / tehdit ettiği kareler aydınlıktır**, geri kalan kareler karanlık sisle kaplıdır.
+* Rakibin pusu kurup kurmadığını bilmeden ilerlersin. Satrancı adeta bir strateji/savaş oyununa çevirir.
+
+---
+
+### 5. "Tarihi Değiştir" Modu (Efsanevi Maçlar) 📜⏳
+* Dünya şampiyonlarının (Kasparov, Fischer, Carlsen) gerçek maçları oynatılır.
+* Oyun tam en kritik hamlede durur ve ekranda şu yazar: 
+  > *"Kasparov burada hata yaptı ve maçı kaybetti. Şimdi sıra sende: Tarihi değiştirip kazanabilir misin?"*
+
+---
+
+### 6. "Hikayede Paylaş" (Viral Sosyal Kart) 📲✨
+* Maç bittiğinde tek tuşla Instagram/WhatsApp Hikaye formatında **5 saniyelik mini bir özet animasyonu** üretilir:
+  * *"Arkadaşımı 18 hamlede mat ettim! Skor: 3-1"*
+  * Şık bir zafer kartı ile doğrudan sosyal medyaya atılabilir.
+
+---
+
+### 🎯 Benim Tavsiyem:
+
+Eğer Play Store'da hızlıca öne çıkmak istiyorsan uygulamanın ana kimliğini:
+👉 **"Lüks Ahşap Hissiyatı + ASMR Rahatlatıcı Sesler + Konuşan/Tepki Veren Botlar"** üzerine kurabiliriz.
+
+Bu konseptlerden senin en çok aklına yatan veya *"kesinlikle bunu yapmalıyız"* dediğin hangisi?
+
+
+
+
+
+🔊 ASMR & Ses / Haptic Sistemi: Taşa dokunma, tok ahşap bırakma sesi, taş yeme darbesi ve şah çekme uyarı sesleri.
+👥 Pass & Play (Aynı Cihazda 2 Kişi Modu): Masaya telefonu koyup karşılıklı oynama (isteğe bağlı tahta ters çevirme / flip board).
+💬 Karakterli / Konuşan Yapay Zeka: Hamleye göre konuşan baloncuklar (Alaycı/Troll bot, bilge koç botu tepkileri).
+🧩 Günlük Taktik & Bulmaca Modu (Puzzles): 1-2 hamlede mat / taktik çözme ekranı.
+📜 Kural Kitabı & Rehber / Türk Daması: stitch-mind klasöründeki rehber veya ek dama arenası tasarımları.
+
+
+
+bazı yerlerde dk(saniye) takılıyor
+
+
+
